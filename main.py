@@ -1,7 +1,30 @@
+import sqlite3
+import os
 from flask import Flask, render_template
 
+# конфигурация приложения
+DATABASE = '/tmp/shop.db'
+DEBUG = True
+SECRET_KEY = 'o;zjoj2ksllk!?dxl14?/.,xz,sa.lflGrlw'
 
-app = Flask(_name__)
+app = Flask(__name__)
+app.config.from_object(__name__)
+
+app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
+
+def connect_db():
+    """Соединение с базой данных"""
+    conn = sqlite3.connect(app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def create_db():
+    """Вспомагательная функция для создания базы данных"""
+    db = connect_db()
+    with app.open_resource('createDB.sql', mode='r') as f:
+        db.cursor().executescript(f.read())
+    db.commit()
+    db.close()
 
 @app.route('/')
 def index():
