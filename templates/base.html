@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
-    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css')}}" />
      {% block style %}{% endblock %}
     <link
       rel="stylesheet"
@@ -15,7 +15,46 @@
       href="https://fonts.googleapis.com/css2?family=Irish Grover:wght@400&display=swap"
     />
   </head>
-<body>
-    {% block body %}{% endblock %}
-</body>
+  <body>
+  {% block body %}{% endblock %}
+    <div class="header">
+      <div class="header2">
+        <div class="search">
+          <div class="div23">Поиск...</div>
+        </div>
+        <div class="catalog">
+          <img class="catalog-child" alt="" src="{{ url_for('static', filename='icons/catalog.svg') }}" />
+
+          <div class="div24">Каталог</div>
+        </div>
+        <img class="orders-icon" alt="" src="./public/orders@2x.png" />
+
+        <img
+          class="shopping-cart-icon"
+          alt=""
+          src="./public/shopping-cart@2x.png"
+        />
+
+        <img class="profile-icon" alt="" src="./public/profile@2x.png" />
+
+        <div class="header2-child"></div>
+      </div>
+      <div class="header1">
+        <div class="books">101 BOOKS</div>
+        <div class="div25">+9-999-999-99-99</div>
+        <div class="div26">Акции</div>
+        <div class="div27">
+          <a href="{{ url_for('about') }}">О нас</a>
+        </div>
+        <div class="div28">Оплата</div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="div18">Каталог</div>
+      <div class="div19">Акции</div>
+      <div class="div20">Оплата</div>
+      <div class="div21">О нас</div>
+      <div class="div22">+9-999-999-99-99</div>
+    </div>
+  </body>
 </html>

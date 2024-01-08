@@ -9,11 +9,11 @@
 }
 .component-3-child {
   position: absolute;
-  height: 59.81%;
+  height: 60%;
   width: 100%;
   top: 0;
   right: 0;
-  bottom: 40.19%;
+  bottom: 40%;
   left: 0;
   border-radius: var(--br-11xl);
   background-color: var(--color-mediumseagreen);
@@ -142,41 +142,6 @@
   width: 1320px;
   height: 507px;
   color: var(--color-black);
-}
-.div18 {
-  top: 50px;
-  left: calc(50% - 620px);
-}
-.div19,
-.div20,
-.div21,
-.div22 {
-  position: absolute;
-  top: 50px;
-  left: calc(50% - 492px);
-}
-.div20,
-.div21,
-.div22 {
-  left: calc(50% - 276px);
-}
-.div21,
-.div22 {
-  left: calc(50% - 381px);
-}
-.div22 {
-  top: 124px;
-  left: calc(50% - 620px);
-}
-.footer {
-  width: 100%;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: var(--color-black);
-  height: 300px;
-  overflow: hidden;
-  font-size: var(--font-size-xl);
 }
 .div23,
 .footer,
