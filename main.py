@@ -14,7 +14,8 @@ app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
 
 def connect_db():
     """Соединение с базой данных"""
-    conn = sqlite3.connect(app.config['DATABASE'])
+    conn = sqlite3.connect(app.config['DATABASE'], detect_types=sqlite3.PARSE_DECLTYPES |
+                                                                sqlite3.PARSE_COLNAMES)
     conn.row_factory = sqlite3.Row
     return conn
 
