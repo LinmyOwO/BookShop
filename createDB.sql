@@ -3,6 +3,8 @@ PRAGMA foreign_keys = 1;
 CREATE TABLE IF NOT EXISTS `user` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `username` TEXT NOT NULL,
+    'email' TEXT NOT NULL,
+    'password' TEXT NOT NULL,
     `role` TEXT NOT NULL,
     `reg_date` TIMESTAMP NOT NULL
 );

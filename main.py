@@ -40,6 +40,7 @@ def get_db():
 dBase = None
 @app.before_request
 def before_request():
+    """Открытие соединения с БД при получении запроса"""
     global dBase
     db = get_db()
     dBase = DBManager(db)
