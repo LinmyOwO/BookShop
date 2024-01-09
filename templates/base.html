@@ -17,44 +17,49 @@
   </head>
   <body>
   {% block body %}{% endblock %}
-    <div class="header">
-      <div class="header2">
-        <div class="search">
-          <div class="div23">Поиск...</div>
-        </div>
-        <div class="catalog">
-          <img class="catalog-child" alt="" src="{{ url_for('static', filename='icons/catalog.svg') }}" />
-
-          <div class="div24">Каталог</div>
-        </div>
-        <img class="orders-icon" alt="" src="./public/orders@2x.png" />
-
-        <img
-          class="shopping-cart-icon"
-          alt=""
-          src="./public/shopping-cart@2x.png"
-        />
-
-        <img class="profile-icon" alt="" src="./public/profile@2x.png" />
-
-        <div class="header2-child"></div>
+    <div class="header2">
+      <img class="catalog" alt="" src="{{ url_for('static', filename='icons/catalog.svg') }}" />
+      <div class="d1">
+        <form>
+        <input type="text" placeholder="Поиск...">
+        <button type="submit"></button>
+        </form>
       </div>
-      <div class="header1">
+      <img class="orders-icon" alt="" src="./public/orders@2x.png" />
+      <img
+        class="shopping-cart-icon"
+        alt=""
+        src="./public/shopping-cart@2x.png"
+      />
+
+      <img class="profile-icon" alt="" src="./public/profile@2x.png" />
+
+      <div class="header2-child"></div>
+    </div>
+    <div class="header1">
+      <a href="{{ url_for('index') }}">
         <div class="books">101 BOOKS</div>
-        <div class="div25">+9-999-999-99-99</div>
-        <div class="div26">Акции</div>
-        <div class="div27">
-          <a href="{{ url_for('about') }}">О нас</a>
-        </div>
-        <div class="div28">Оплата</div>
-      </div>
+      </a>
+      <a href="{{ url_for('about') }}">
+        <div class="div27">О нас</div>
+      </a>
+      <div class="div26">Акции</div>
+      <div class="div28">Оплата</div>
+      <div class="div25">+9-999-999-99-99</div>
     </div>
     <div class="footer">
-      <div class="div18">Каталог</div>
-      <div class="div19">Акции</div>
-      <div class="div20">Оплата</div>
-      <div class="div21">О нас</div>
-      <div class="div22">+9-999-999-99-99</div>
+      <a href="#">
+        <div class="nav-cell">Каталог</div>
+      </a>
+      <a href="#">
+        <div class="nav-cell">Акции</p></div>
+      </a>
+      <a href="#">
+        <div class="nav-cell">Оплата</div>
+      </a>
+      <a href="{{ url_for('about') }}">
+        <div class="nav-cell">О нас</div>
+      </a>
     </div>
   </body>
 </html>

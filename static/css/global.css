@@ -1,71 +1,171 @@
 body {
-  margin: 0;
-  line-height: normal;
+    margin: 0;
+    line-height: normal;
 }
 
 :root {
-  /* fonts */
-  --font-inter: Inter;
-  --font-irish-grover: "Irish Grover";
+    /* fonts */
+    --font-inter: Inter;
+    --font-irish-grover: "Irish Grover";
 
-  /* font sizes */
-  --font-size-5xl: 24px;
-  --font-size-17xl: 36px;
-  --font-size-base: 16px;
-  --font-size-xl: 20px;
-  --font-size-21xl: 40px;
-  --font-size-13xl: 32px;
+    /* font sizes */
+    --font-size-5xl: 24px;
+    --font-size-17xl: 36px;
+    --font-size-base: 16px;
+    --font-size-xl: 20px;
+    --font-size-21xl: 40px;
+    --font-size-13xl: 32px;
 
-  /* Colors */
-  --color-gainsboro: #e0e0e0;
-  --color-black: #000;
-  --color-white: #fff;
-  --color-darkslategray: #463e50;
-  --color-mediumseagreen: #37bf6d;
+    /* Colors */
+    --color-gainsboro: #e0e0e0;
+    --color-black: #000;
+    --color-white: #fff;
+    --color-darkslategray: #463e50;
+    --color-mediumseagreen: #37bf6d;
 
-  /* Border radiuses */
-  --br-3xl: 22px;
-  --br-mid: 17px;
-  --br-11xl: 30px;
+    /* Border radiuses */
+    --br-3xl: 22px;
+    --br-mid: 17px;
+    --br-11xl: 30px;
+}
+a {
+  text-decoration: none;
 }
 .footer {
+    position: absolute;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    height: 300px;
+    font-size: var(--font-size-xl);
+    text-align: left;
+    font-family: var(--font-inter);
+    display: flex;
+    flex-direction: row;
+    padding-left: calc(50% - 620px);
+}
+.nav-cell{
+    color: #FFFFFF;
+    top: 50px;
+    margin-right: 50px;
+    margin-top: 50px;
+}
+.div23 {
+  height: 39.57%;
+  top: 31.28%;
+  left: 22px;
+  display: inline-block;
+  width: 62px;
+  position: absolute;
+}
+.header,
+.header1 {
   position: absolute;
   width: 100%;
+  top: 0;
   right: 0;
-  bottom: 0;
   left: 0;
+}
+.header1 {
+  height: 90px;
   background-color: var(--color-black);
+  font-size: var(--font-size-5xl);
   color: var(--color-white);
-  height: 300px;
+  display: flex;
+  flex-direction: row;
+  padding-left: calc(50% - 620px);
+  align-items: center;
+}
+.search {
+  top: 10px;
+  border-radius: var(--br-mid);
+  background-color: var(--color-white);
+  border: 2px solid var(--color-mediumseagreen);
+  box-sizing: border-box;
+  width: 805px;
+  height: 47px;
+  margin-right: 50px;
+}
+.catalog{
+  top: 0;
+  margin-right: 50px;
+}
+.orders-icon,
+.profile-icon,
+.shopping-cart-icon {
+  width: 40px;
+  height: 44px;
+  object-fit: cover;
+  margin-right: 50px;
+}
+.profile-icon,
+.shopping-cart-icon {
+  width: 55px;
+}
+.profile-icon {
+  width: 24px;
+  height: 43px;
+}
+.header2-child {
+  position: absolute;
+  top: 46px;
+  left: 1223px;
+  width: 6px;
+  height: 1px;
   overflow: hidden;
-  font-size: var(--font-size-xl);
-  text-align: left;
-  font-family: var(--font-inter);
 }
-.div18 {
+.header2 {
   position: absolute;
-  top: 50px;
-  left: calc(50% - 620px);
+  width: 100%;
+  height: 70px;
+  top: 90px;
+  background-color: var(--color-darkslategray);
+  display: flex;
+  flex-direction: row;
+  padding-left: calc(50% - 620px);
+  align-items: center;
 }
-.div19,
-.div20,
-.div21,
-.div22 {
-  position: absolute;
-  top: 50px;
-  left: calc(50% - 492px);
+.books {
+  color: var(--color-white);
+  top: 23px;
+  font-size: var(--font-size-17xl);
+  font-family: var(--font-irish-grover);
+  margin-right: 50px;
 }
-.div20,
-.div21,
-.div22 {
-  left: calc(50% - 276px);
+.div25,
+.div26,
+.div27,
+.div28 {
+  color: var(--color-white);
+  top: 38px;
+  margin-right: 50px;
 }
-.div21,
-.div22 {
-  left: calc(50% - 381px);
+form {
+  margin-right: 50px;
 }
-.div22 {
-  top: 124px;
-  left: calc(50% - 620px);
+.d1 input {
+  width: 750px;
+  height: 42px;
+  padding-left: 10px;
+  border: 2px solid var(--color-mediumseagreen);
+  border-radius: 5px;
+  outline: none;
+  background: #FFFFFF;
 }
-
+.d1 button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: var(--color-mediumseagreen);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.d1 button:before {
+  content: "\f002";
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #F9F0DA;
+}
