@@ -17,7 +17,18 @@
   </head>
   <body>
   {% block body %}{% endblock %}
-    <div class="header2">
+    <div class="header1">
+      <a href="{{ url_for('index') }}">
+        <div class="books">101 BOOKS</div>
+      </a>
+      <a href="{{ url_for('about') }}">
+        <div class="div27">О нас</div>
+      </a>
+      <div class="div26">Акции</div>
+      <div class="div28">Оплата</div>
+      <div class="div25">+9-999-999-99-99</div>
+    </div>
+      <div class="header2">
       <img class="catalog" alt="" src="{{ url_for('static', filename='icons/catalog.svg') }}" />
       <div class="d1">
         <form>
@@ -31,33 +42,19 @@
       <img class="shopping-cart-icon" alt="" src="{{ url_for('static', filename='icons/shoppingCart.svg') }}" />
       <img class="profile-icon" alt="" src="{{ url_for('static', filename='icons/profile.svg') }}" />
     </div>
-    <div class="header1">
-      <a href="{{ url_for('index') }}">
-        <div class="books">101 BOOKS</div>
-      </a>
-      <a href="{{ url_for('about') }}">
-        <div class="div27">О нас</div>
-      </a>
-      <div class="div26">Акции</div>
-      <div class="div28">Оплата</div>
-      <div class="div25">+9-999-999-99-99</div>
-    </div>
     <div class="footer">
-      <a href="#">
-        <div class="nav-cell">Каталог</div>
-      </a>
       <div class="nav-cell">
         <a href="{{ url_for('index') }}">Каталог</a>
       </div>
-      <a href="#">
-        <div class="nav-cell">Акции</p></div>
-      </a>
-      <a href="#">
-        <div class="nav-cell">Оплата</div>
-      </a>
-      <a href="{{ url_for('about') }}">
-        <div class="nav-cell">О нас</div>
-      </a>
+      <div class="nav-cell">
+        <a href="{{ url_for('index') }}">Акции</a>
+      </div>
+      <div class="nav-cell">
+        <a href="{{ url_for('index') }}">Оплата</a>
+      </div>
+      <div class="nav-cell">
+        <a href="{{ url_for('index') }}">О нас</a>
+      </div>
     </div>
   </body>
 </html>

@@ -31,6 +31,9 @@ body {
 a {
   text-decoration: none;
 }
+a:visited {
+  color: #FFFFFF;
+}
 .footer {
     position: absolute;
     right: 0;
@@ -38,13 +41,13 @@ a {
     left: 0;
     background-color: var(--color-black);
     color: var(--color-white);
-    height: 300px;
+    height: 200px;
     font-size: var(--font-size-xl);
     text-align: left;
     font-family: var(--font-inter);
     display: flex;
     flex-direction: row;
-    padding-left: calc(50% - 620px);
+    padding-left: calc(50% - 600px);
 }
 .nav-cell{
     color: #FFFFFF;
@@ -71,10 +74,8 @@ a {
   color: var(--color-white);
   display: flex;
   flex-direction: row;
-  padding-left: calc(50% - 620px);
+  padding-left: calc(50% - 600px);
   align-items: center;
-}
-.search {
 }
 .catalog{
   top: 0;
@@ -86,7 +87,7 @@ a {
   width: 40px;
   height: 44px;
   object-fit: cover;
-  margin-right: 50px;
+  margin-right: 30px;
 }
 .profile-icon,
 .shopping-cart-icon {
@@ -105,7 +106,7 @@ a {
   background-color: var(--color-darkslategray);
   display: flex;
   flex-direction: row;
-  padding-left: calc(50% - 620px);
+  padding-left: calc(50% - 600px);
   align-items: center;
 }
 .books {
