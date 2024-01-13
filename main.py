@@ -1,6 +1,7 @@
 import sqlite3
 import os
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, request, abort
+from DBManager import DBManager
 
 # конфигурация приложения
 DATABASE = '/tmp/shop.db'
@@ -15,8 +16,8 @@ app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
 
 def connect_db():
     """Соединение с базой данных"""
-    conn = sqlite3.connect(app.config['DATABASE'], detect_types=sqlite3.PARSE_DECLTYPES |
-                                                                sqlite3.PARSE_COLNAMES)
+    conn = sqlite3.connect(app.config['DATABASE'],
+                           detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -95,16 +96,24 @@ def profile():
     return render_template("profile.html", info={})
 
 
-@app.route('/book/<int:id>')
-def book():
+@app.route('/book/<int:bookid>')
+def book(bookid):
     """Страница книги"""
-    return render_template("book.html", bookInfo={})
+    bookInfo = dBase.getBookInfo(bookid)
+    if not bookInfo:
+        abort(404)
+    return render_template("book.html", bookInfo=bookInfo)
 
 
 @app.route('/catalog/<category>')
 def catalog():
     """Страница каталога (пока что категории)"""
     return render_template("catalog.html")
+
+
+@app.errorhandler(404)
+def pageNotFound(error):
+    return render_template("page404.html")
 
 
 if __name__ == "__main__":

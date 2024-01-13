@@ -892,7 +892,7 @@
 								"$ref": "AAAAAAGM6kb+evPmrsw="
 							},
 							"name": "is_available",
-							"type": "BOOL",
+							"type": "INTEGER",
 							"length": 0
 						},
 						{

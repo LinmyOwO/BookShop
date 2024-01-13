@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `book` (
     `description` TEXT,
     `price` REAL NOT NULL,
     `length` INTEGER NOT NULL,
-    `is_available` BOOL NOT NULL,
-    `source` BLOB NOT NULL,
+    `is_available` INTEGER NOT NULL,
+    `source` BLOB,
     `image` BLOB,
     `receive_date` TIMESTAMP NOT NULL
 );
