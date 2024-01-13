@@ -13,12 +13,13 @@ CREATE TABLE IF NOT EXISTS `book` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `name` TEXT NOT NULL,
     `authors` TEXT NOT NULL,
+    `description` TEXT,
     `price` REAL NOT NULL,
     `length` INTEGER NOT NULL,
     `is_available` BOOL NOT NULL,
     `source` BLOB NOT NULL,
     `image` BLOB,
-    `recieve_date` TIMESTAMP NOT NULL
+    `receive_date` TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `genre` (
@@ -41,6 +42,5 @@ CREATE TABLE IF NOT EXISTS `order` (
 CREATE TABLE IF NOT EXISTS `order_book` (
     `id` INTEGER PRIMARY KEY AUTOINCREMENT,
     `order_id` INTEGER NOT NULL REFERENCES `order`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-    `book_id` INTEGER NOT NULL REFERENCES `book`(`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-    `quantity` INTEGER NOT NULL
+    `book_id` INTEGER NOT NULL REFERENCES `book`(`id`) ON UPDATE CASCADE ON DELETE CASCADE
 );
