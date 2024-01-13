@@ -1,9 +1,9 @@
 import sqlite3
 import os
 import flask as fl
-
 from DBManager import DBManager
 from werkzeug.security import generate_password_hash, check_password_hash
+from admin.admin import admin
 
 # конфигурация приложения
 DATABASE = '/tmp/shop.db'
@@ -12,8 +12,9 @@ SECRET_KEY = '7bee6651532c3c31a57bca7b6ccbcd36894f874e'
 
 app = fl.Flask(__name__)
 app.config.from_object(__name__)
-
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
+
+app.register_blueprint(admin, url_prefix='/admin')
 
 
 def connect_db():
