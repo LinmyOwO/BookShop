@@ -21,20 +21,15 @@
       <img class="catalog" alt="" src="{{ url_for('static', filename='icons/catalog.svg') }}" />
       <div class="d1">
         <form>
-        <input type="text" placeholder="Поиск...">
-        <button type="submit"></button>
+          <div class="search">
+            <input type="text" placeholder="Поиск...">
+            <button type="submit"></button>
+          </div>
         </form>
       </div>
-      <img class="orders-icon" alt="" src="./public/orders@2x.png" />
-      <img
-        class="shopping-cart-icon"
-        alt=""
-        src="./public/shopping-cart@2x.png"
-      />
-
-      <img class="profile-icon" alt="" src="./public/profile@2x.png" />
-
-      <div class="header2-child"></div>
+      <img class="orders-icon" alt="" src="{{ url_for('static', filename='icons/orders.svg') }}" />
+      <img class="shopping-cart-icon" alt="" src="{{ url_for('static', filename='icons/shoppingCart.svg') }}" />
+      <img class="profile-icon" alt="" src="{{ url_for('static', filename='icons/profile.svg') }}" />
     </div>
     <div class="header1">
       <a href="{{ url_for('index') }}">

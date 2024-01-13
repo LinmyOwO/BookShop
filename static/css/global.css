@@ -33,7 +33,6 @@ a {
 }
 .footer {
     position: absolute;
-    width: 100%;
     right: 0;
     bottom: 0;
     left: 0;
@@ -61,15 +60,11 @@ a {
   width: 62px;
   position: absolute;
 }
-.header,
 .header1 {
   position: absolute;
-  width: 100%;
   top: 0;
   right: 0;
   left: 0;
-}
-.header1 {
   height: 90px;
   background-color: var(--color-black);
   font-size: var(--font-size-5xl);
@@ -80,14 +75,6 @@ a {
   align-items: center;
 }
 .search {
-  top: 10px;
-  border-radius: var(--br-mid);
-  background-color: var(--color-white);
-  border: 2px solid var(--color-mediumseagreen);
-  box-sizing: border-box;
-  width: 805px;
-  height: 47px;
-  margin-right: 50px;
 }
 .catalog{
   top: 0;
@@ -109,18 +96,11 @@ a {
   width: 24px;
   height: 43px;
 }
-.header2-child {
-  position: absolute;
-  top: 46px;
-  left: 1223px;
-  width: 6px;
-  height: 1px;
-  overflow: hidden;
-}
 .header2 {
   position: absolute;
-  width: 100%;
   height: 70px;
+  right: 0;
+  left: 0;
   top: 90px;
   background-color: var(--color-darkslategray);
   display: flex;
@@ -146,6 +126,9 @@ a {
 form {
   margin-right: 50px;
 }
+.search {
+  display: flex;
+}
 .d1 input {
   width: 750px;
   height: 42px;
@@ -154,6 +137,7 @@ form {
   border-radius: 5px;
   outline: none;
   background: #FFFFFF;
+  flex-grow: 1;
 }
 .d1 button {
   width: 48px;
