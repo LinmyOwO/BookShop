@@ -11,3 +11,4 @@ class DBManager:
             return bookInfo
         except:
             print("Ошибка чтения из БД")
+        return None
