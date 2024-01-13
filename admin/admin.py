@@ -5,7 +5,7 @@ admin = Blueprint('admin', __name__, template_folder='templates', static_folder=
 
 
 def login_admin():
-    session['admin_logged'] == 1
+    session['admin_logged'] = 1
 
 
 def isLogged():
@@ -23,6 +23,9 @@ def index():
 
 @admin.route('/login', methods=["POST", "GET"])
 def login():
+    if isLogged():
+        return redirect(url_for('.index'))
+
     if request.method == "POST":
         if request.form['user'] == "admin" and request.form['psw'] == "12345":
             login_admin()
