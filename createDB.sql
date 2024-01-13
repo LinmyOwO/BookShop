@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS `user` (
     `username` TEXT NOT NULL,
     'email' TEXT NOT NULL,
     'password' TEXT NOT NULL,
-    `role` TEXT NOT NULL,
     `reg_date` TIMESTAMP NOT NULL
 );
 
@@ -18,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `book` (
     `length` INTEGER NOT NULL,
     `is_available` INTEGER NOT NULL,
     `source` BLOB,
-    `image` BLOB,
+    `image` BLOB DEFAULT NULL,
     `receive_date` TIMESTAMP NOT NULL
 );
 
