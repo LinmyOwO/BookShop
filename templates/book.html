@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12"><h3>{{ bookInfo['name'] }}</h3></div>
+        <div class="col-12"><p>Автор: {{ bookInfo['authors'] }}</p></div>
+        <div class="col-3"><img class="img-fluid" src="{{ url_for('static', filename='public/book.png') }}"/></div>
+        <div class="col-9">
+            <p>Описание:</p>
+            <p>{{ bookInfo['description'] }}</p>
+            <p>Количество страниц: {{ bookInfo['length'] }}.</p>
+            <h4>Цена: {{ bookInfo['price'] }} руб.</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}
