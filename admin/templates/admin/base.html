@@ -6,6 +6,7 @@
     <link href="{{ url_for('.static', filename='css/styles.css') }}" rel="stylesheet">
   </head>
   <body>
+    <form class="visually-hidden" id="logout" method="post" action="{{ url_for('.logout') }}"></form>
     <div class="container">
       <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-3 link-body-emphasis text-decoration-none">
@@ -18,7 +19,7 @@
           <li class="nav-item"><a href="#" class="nav-link">Заказы</a></li>
         </ul>
         <div class="text-end">
-          <button type="button" class="btn btn-danger">Выйти</button>
+          <button type="submit" form="logout" class="btn btn-danger">Выйти</button>
         </div>
       </header>
     </div>

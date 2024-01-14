@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect, flash, session
+from flask import Blueprint, render_template, request, url_for, redirect, flash, session, g
 
 
 admin = Blueprint('admin', __name__, template_folder='templates', static_folder='static')
@@ -34,6 +34,21 @@ def login():
             flash("Неверный логин/пароль", "error")
 
     return render_template('admin/login.html')
+
+
+db = None
+@admin.before_request
+def before_request():
+    """Установление соединения с БД перед выполнением запроса"""
+    global db
+    db = g.get('link_db')
+
+
+@admin.teardown_request
+def teardown_request(request):
+    global db
+    db = None
+    return request
 
 
 @admin.route('/logout', methods=["POST", "GET"])
