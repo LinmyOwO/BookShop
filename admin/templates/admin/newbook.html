@@ -9,8 +9,6 @@
       <form method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <div class="mb-3">
-          {{ form.login.label(class='mb-1', for='login') }}
-          {{ form.login(class='form-control') }}
           <label class="mb-1" for="Create_NameInput">Название</label>
           <input type="text" class="form-control" id="Create_NameInput" placeholder="Дуб Зеленый" name="Name" value="@Model.Name" />
         </div>

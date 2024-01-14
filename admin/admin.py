@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, url_for, redirect, flash, session, g
+from flask import Blueprint, render_template, url_for, redirect, session, g, request
 from forms import LoginForm
 
 
@@ -34,6 +34,8 @@ def teardown_request(request):
 
 @admin.route('/')
 def index():
+    if not isLogged():
+        return redirect(url_for('.login'))
     return render_template('admin/index.html')
 
 
@@ -51,6 +53,11 @@ def login():
         return redirect(url_for('.index'))
 
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.login.data == "admin" and form.psw.data == "12345":
+            login_admin()
+            return redirect(request.args.get('next') or url_for('.index'))
+
     return render_template('admin/login.html', form=form)
 
     # if request.method == "POST":

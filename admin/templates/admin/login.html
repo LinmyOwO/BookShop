@@ -9,16 +9,17 @@
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto">
       <form method="post" action="">
+        {{ form.hidden_tag() }}
         <h1 class="h3 mb-3 fw-normal">Вход</h1>
         <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput" name="user" placeholder="username">
-          <label for="floatingInput">Имя пользователя</label>
+          {{ form.login(class='form-control') }}
+          {{ form.login.label(class='mb-1', for='login') }}
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" name="psw" placeholder="Password">
-          <label for="floatingPassword">Пароль</label>
+          {{ form.psw(class='form-control') }}
+          {{ form.psw.label(class='mb-1', for='psw') }}
         </div>
-        <button class="btn btn-primary w-100 py-2 mt-3" type="submit">Войти</button>
+        {{ form.submit(class='btn btn-primary w-100 py-2 mt-3') }}
         <p class="mt-5 mb-3 text-body-secondary">© 101 Books 2024</p>
       </form>
     </main>
