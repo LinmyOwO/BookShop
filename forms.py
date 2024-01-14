@@ -7,3 +7,4 @@ class LoginForm(FlaskForm):
     login = StringField("Логин", validators=[DataRequired()])
     psw = PasswordField("Пароль", validators=[DataRequired()])
     submit = SubmitField("Войти")
+

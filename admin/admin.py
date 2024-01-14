@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect, session, g, request
+from flask import Blueprint, render_template, url_for, redirect, session, g, request, flash
 from forms import LoginForm
 
 
@@ -57,6 +57,8 @@ def login():
         if form.login.data == "admin" and form.psw.data == "12345":
             login_admin()
             return redirect(request.args.get('next') or url_for('.index'))
+        else:
+            flash("Неверный логин/пароль")
 
     return render_template('admin/login.html', form=form)
 

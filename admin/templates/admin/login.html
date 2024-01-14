@@ -12,13 +12,26 @@
         {{ form.hidden_tag() }}
         <h1 class="h3 mb-3 fw-normal">Вход</h1>
         <div class="form-floating">
+          {% if form.login.errors %}
+          {{ form.login(class='form-control is-invalid') }}
+          {{ form.login.label(class='mb-1', for='login') }}
+          <div class="invalid-feedback">
+            {% for e in form.login.errors %}
+            {{ e }}
+            {% endfor %}
+          </div>
+          {% else %}
           {{ form.login(class='form-control') }}
           {{ form.login.label(class='mb-1', for='login') }}
+          {% endif %}
         </div>
         <div class="form-floating">
           {{ form.psw(class='form-control') }}
           {{ form.psw.label(class='mb-1', for='psw') }}
         </div>
+        {% for msg in get_flashed_messages() %}
+        <span class="text-danger">{{ msg }}</span>
+        {% endfor %}
         {{ form.submit(class='btn btn-primary w-100 py-2 mt-3') }}
         <p class="mt-5 mb-3 text-body-secondary">© 101 Books 2024</p>
       </form>
