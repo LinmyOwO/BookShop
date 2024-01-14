@@ -8,3 +8,7 @@ class LoginForm(FlaskForm):
     psw = PasswordField("Пароль", validators=[DataRequired()])
     submit = SubmitField("Войти")
 
+
+class BookForm(FlaskForm):
+    name = TextAreaField("Название", validators=[DataRequired(), Length(max=300, message="Слишком длинное название")])
+

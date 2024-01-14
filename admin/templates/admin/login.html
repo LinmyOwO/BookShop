@@ -11,24 +11,22 @@
       <form method="post" action="">
         {{ form.hidden_tag() }}
         <h1 class="h3 mb-3 fw-normal">Вход</h1>
+        {% for field in form if field.name not in ['csrf_token', 'submit'] %}
         <div class="form-floating">
-          {% if form.login.errors %}
-          {{ form.login(class='form-control is-invalid') }}
-          {{ form.login.label(class='mb-1', for='login') }}
+          {% if field.errors %}
+          {{ field(class='form-control is-invalid') }}
+          {{ field.label(class='mb-1', for='field.name') }}
           <div class="invalid-feedback">
-            {% for e in form.login.errors %}
+            {% for e in field.errors %}
             {{ e }}
             {% endfor %}
           </div>
           {% else %}
-          {{ form.login(class='form-control') }}
-          {{ form.login.label(class='mb-1', for='login') }}
+          {{ field(class='form-control') }}
+          {{ field.label(class='mb-1', for='field.name') }}
           {% endif %}
         </div>
-        <div class="form-floating">
-          {{ form.psw(class='form-control') }}
-          {{ form.psw.label(class='mb-1', for='psw') }}
-        </div>
+        {% endfor %}
         {% for msg in get_flashed_messages() %}
         <span class="text-danger">{{ msg }}</span>
         {% endfor %}
