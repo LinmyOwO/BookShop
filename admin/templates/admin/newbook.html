@@ -8,90 +8,23 @@
     <div class="col-6">
       <form method="post" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
+        {% for field in form if field.name not in ['csrf_token', 'submit'] %}
         <div class="mb-3">
-          <label class="mb-1" for="Create_NameInput">Название</label>
-          <input type="text" class="form-control" id="Create_NameInput" placeholder="Дуб Зеленый" name="Name" value="@Model.Name" />
-        </div>
-        <div class="mb-3">
-          <label class="mb-1" for="Create_TypeInput">Тип</label>
-          <input type="text" class="form-control" id="Create_TypeInput" placeholder="Живопись" name="Type" value="@Model.Type" />
-        </div>
-        <div class="mb-3">
-          <label class="mb-1" for="Create_CreatorInput">Создатель</label>
-          <input type="text" class="form-control" id="Create_CreatorInput" placeholder="И.И.Иванов" name="Creator" value="@Model.Creator" />
-        </div>
-        <div class="mb-3">
-          <label class="mb-1" for="Create_CreationDateInput">Дата создания</label>
-          <input type="text" class="form-control" id="Create_CreationDateInput" placeholder="XIX век" name="CreationDate" value="@Model.CreationDate" />
-        </div>
-        <div class="mb-3">
-          <label class="mb-1" for="Create_DescriptionInput">Описание</label>
-          <textarea type="text" class="form-control" id="Create_DescriptionInput" placeholder="Данная картина была создана великим человеком..."
-                    name="Description" rows="5">@Model.Description</textarea>
-        </div>
-        <div class="mb-3">
-          <label class="mb-1">Статус</label>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.InAction" id="Create_StatusRadio1" checked>
-            <label class="form-check-label" for="Create_StatusRadio1">
-              @ExhibitStatus.InAction
-            </label>
+          {% if field.errors %}
+          {{ field.label(class='mb-1', for='field.name') }}
+          {{ field(class='form-control is-invalid') }}
+          <div class="invalid-feedback">
+            {% for e in field.errors %}
+            {{ e }}
+            {% endfor %}
           </div>
-          <div class="form-check">
-            @if (Model.Status == ExhibitStatus.Stored)
-            {
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.Stored" id="Create_StatusRadio2" checked>
-            }
-            else
-            {
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.Stored" id="Create_StatusRadio2">
-            }
-            <label class="form-check-label" for="Create_StatusRadio2">
-              @ExhibitStatus.Stored
-            </label>
-          </div>
-          <div class="form-check">
-            @if (Model.Status == ExhibitStatus.Restoration)
-            {
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.Restoration" id="Create_StatusRadio3" checked>
-            }
-            else
-            {
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.Restoration" id="Create_StatusRadio3">
-            }
-            <label class="form-check-label" for="Create_StatusRadio3">
-              @ExhibitStatus.Restoration
-            </label>
-          </div>
-          <div class="form-check">
-            @if (Model.Status == ExhibitStatus.Exported)
-            {
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.Exported" id="Create_StatusRadio4" checked>
-            }
-            else
-            {
-            <input class="form-check-input" type="radio" name="Status" value="@ExhibitStatus.Exported" id="Create_StatusRadio4">
-            }
-            <label class="form-check-label" for="Create_StatusRadio4">
-              @ExhibitStatus.Exported
-            </label>
-          </div>
+          {% else %}
+          {{ field.label(class='mb-1', for='field.name') }}
+          {{ field(class='form-control') }}
+          {% endif %}
         </div>
-        <div class="mb-3">
-          <label class="mb-1">Экспозиция</label>
-          <select class="form-select" name="Exhibition">
-            @foreach (var ex in Model.Exhibitions)
-            {
-            <option value="@ex.Name">@ex.Name</option>
-            }
-          </select>
-        </div>
-        <div class="mb-3">
-          <label>Выберите изображение</label><br />
-          <input type="file" name="ImagePost"/>
-        </div>
-        <button type="submit" class="btn btn-sm btn-primary mr-2">Добавить</button>
-        <a href="/Journal/Exhibits" class="btn btn-sm btn-danger">Отмена</a>
+        {% endfor %}
+        {{ form.submit(class='btn btn-sm btn-primary mr-2') }}
       </form>
     </div>
     <div class="col-6"></div>
