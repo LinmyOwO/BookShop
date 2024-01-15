@@ -1,6 +1,8 @@
 import sqlite3
 import os
-import flask as fl
+from flask import Flask, render_template, request, g, abort
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 from DBManager import DBManager
 from werkzeug.security import generate_password_hash, check_password_hash
 from admin.admin import admin
@@ -10,11 +12,16 @@ DATABASE = '/tmp/shop.db'
 DEBUG = True
 SECRET_KEY = '7bee6651532c3c31a57bca7b6ccbcd36894f874e'
 
-app = fl.Flask(__name__)
+SQLALCHEMY_DATABASE_URI = 'sqlite:///shop.db'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
 
 app.register_blueprint(admin, url_prefix='/admin')
+
+db = SQLAlchemy(app)
 
 
 def connect_db():
@@ -36,9 +43,9 @@ def create_db():
 
 def get_db():
     """Соединение с БД, если оно еще не установлено"""
-    if not hasattr(fl.g, 'link_db'):
-        fl.g.link_db = connect_db()
-    return fl.g.link_db
+    if not hasattr(g, 'link_db'):
+        g.link_db = connect_db()
+    return g.link_db
 
 
 dBase = None
@@ -53,73 +60,127 @@ def before_request():
 @app.teardown_appcontext
 def close_db(error):
     """Закрытие соединения с БД при завершении обработки запроса"""
-    if hasattr(fl.g, 'link_db'):
-        fl.g.link_db.close()
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
 
 @app.route('/')
 def index():
     """Главная страница"""
-    return fl.render_template("index.html")
+    return render_template("index.html")
 
 
 @app.route('/about')
 def about():
     """Страница 'О нас'"""
-    return fl.render_template("about.html")
+    return render_template("about.html")
 
 
 @app.route('/history')
 def history():
     """Страница с историей заказов"""
-    return fl.render_template("history.html", orders=[])
+    return render_template("history.html", orders=[])
 
 
 @app.route('/cart')
 def cart():
     """Страница корзины"""
-    return fl.render_template("cart.html", items=[])
+    return render_template("cart.html", items=[])
 
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
     """Страница регистрации"""
-    if fl.request.method == "POST":
+    if request.method == "POST":
         pass
-    return fl.render_template("register.html")
+    return render_template("register.html")
 
 
 @app.route('/login')
 def login():
     """Страница входа"""
-    return fl.render_template("login.html")
+    return render_template("login.html")
 
 
 @app.route('/profile/<int:userid>')
 def profile():
     """Страница профиля"""
-    return fl.render_template("profile.html", info={})
+    return render_template("profile.html", info={})
 
 
-@app.route('/book/<int:bookid>')
-def book(bookid):
+@app.route('/book/<int:book_id>')
+def book(book_id):
     """Страница книги"""
-    bookInfo = dBase.getBookInfo(bookid)
-    if not bookInfo:
-        fl.abort(404)
-    return fl.render_template("book.html", bookInfo=bookInfo)
+    res = None
+    try:
+        res = BooksGenres.query.filter(BooksGenres.book_id == book_id).order_by(BooksGenres.genre.name).all()
+    except:
+        print("Ошибка чтения из БД")
+
+    if not res:
+        abort(404)
+
+    book = res[0].book
+    genres = [row.genre for row in res]
+    return render_template("book.html", book=book, genres=genres)
 
 
-@app.route('/catalog/<category>')
-def catalog(category):
+@app.route('/catalog/<int:genre_id>')
+def catalog(genre_id):
     """Страница жанра"""
-    return fl.render_template("catalog.html")
+    res = None
+    try:
+        res = BooksGenres.query.filter(BooksGenres.genre_id == genre_id).order_by(BooksGenres.book_id.desc()).all()
+    except:
+        print("Ошибка чтения из БД")
+
+    if not res:
+        abort(404)
+    genre = res[0].genre.name
+    books = [row.book for row in res]
+
+    return render_template("catalog.html", books=books, genre=genre)
 
 
-@app.errorhandler(404)
-def pageNotFound(error):
-    return fl.render_template("page404.html")
+# @app.errorhandler(404)
+# def pageNotFound(error):
+#     return render_template("page404.html")
 
 
 if __name__ == "__main__":
     app.run()
+
+
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    email = db.Column(db.String(50), unique=True)
+    psw = db.Column(db.String(500))
+    reg_date = db.Column(db.DateTime, default=datetime.utcnow())
+
+
+class Books(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(300))
+    authors = db.Column(db.String(300))
+    description = db.Column(db.Text, nullable=True)
+    length = db.Column(db.Integer)
+    price = db.Column(db.Float)
+    is_available = db.Column(db.Boolean, default=False)
+    source = db.Column(db.Integer, nullable=True)
+    image = db.Column(db.LargeBinary, nullable=True)
+
+    genres = db.relationship('BooksGenres', backref='book', lazy='dynamic')
+
+
+class Genres(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    books = db.relationship('BooksGenres', backref='genre', lazy='dynamic')
+
+
+class BooksGenres(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
