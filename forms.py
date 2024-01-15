@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, TextAreaField, Rad
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, Regexp
 
 
-class LoginForm(FlaskForm):
+class AdminLoginForm(FlaskForm):
     login = StringField("Логин", validators=[DataRequired()])
     psw = PasswordField("Пароль", validators=[DataRequired()])
     submit = SubmitField("Войти")

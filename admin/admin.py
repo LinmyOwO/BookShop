@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, session, g, request, flash
-from forms import LoginForm, BookForm
+from forms import AdminLoginForm, BookForm
 
 
 admin = Blueprint('admin', __name__, template_folder='templates', static_folder='static')
@@ -54,7 +54,7 @@ def login():
     if isLogged():
         return redirect(url_for('.index'))
 
-    form = LoginForm()
+    form = AdminLoginForm()
     if form.validate_on_submit():
         if form.login.data == "admin" and form.psw.data == "12345":
             login_admin()

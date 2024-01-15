@@ -108,19 +108,38 @@ def profile():
     return render_template("profile.html", info={})
 
 
-@app.route('/book/<int:bookid>')
-def book(bookid):
+@app.route('/book/<int:book_id>')
+def book(book_id):
     """Страница книги"""
-    bookInfo = dBase.getBookInfo(bookid)
-    if not bookInfo:
+    res = None
+    try:
+        res = BooksGenres.query.filter(BooksGenres.book_id == book_id).order_by(BooksGenres.genre.name).all()
+    except:
+        print("Ошибка чтения из БД")
+
+    if not res:
         abort(404)
-    return render_template("book.html", bookInfo=bookInfo)
+
+    book = res[0].book
+    genres = [row.genre for row in res]
+    return render_template("book.html", book=book, genres=genres)
 
 
-@app.route('/catalog/<category>')
-def catalog(category):
+@app.route('/catalog/<int:genre_id>')
+def catalog(genre_id):
     """Страница жанра"""
-    return render_template("catalog.html")
+    res = None
+    try:
+        res = BooksGenres.query.filter(BooksGenres.genre_id == genre_id).order_by(BooksGenres.book_id.desc()).all()
+    except:
+        print("Ошибка чтения из БД")
+
+    if not res:
+        abort(404)
+    genre = res[0].genre.name
+    books = [row.book for row in res]
+
+    return render_template("catalog.html", books=books, genre=genre)
 
 
 # @app.errorhandler(404)
@@ -151,10 +170,14 @@ class Books(db.Model):
     source = db.Column(db.Integer, nullable=True)
     image = db.Column(db.LargeBinary, nullable=True)
 
+    genres = db.relationship('BooksGenres', backref='book', lazy='dynamic')
+
 
 class Genres(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+
+    books = db.relationship('BooksGenres', backref='genre', lazy='dynamic')
 
 
 class BooksGenres(db.Model):
