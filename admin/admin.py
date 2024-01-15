@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, redirect, session, g, request, flash
+from flask import Blueprint, render_template, url_for, redirect, session, request, flash
 from forms import AdminLoginForm, BookForm
 
 
@@ -15,21 +15,6 @@ def isLogged():
 
 def logout_admin():
     session.pop('admin_logged', None)
-
-
-db = None
-@admin.before_request
-def before_request():
-    """Установление соединения с БД перед выполнением запроса"""
-    global db
-    db = g.get('link_db')
-
-
-@admin.teardown_request
-def teardown_request(request):
-    global db
-    db = None
-    return request
 
 
 @admin.route('/')
