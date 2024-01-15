@@ -24,6 +24,42 @@ app.register_blueprint(admin, url_prefix='/admin')
 db = SQLAlchemy(app)
 
 
+
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    email = db.Column(db.String(50), unique=True)
+    psw = db.Column(db.String(500))
+    reg_date = db.Column(db.DateTime, default=datetime.utcnow())
+
+
+class Books(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(300))
+    authors = db.Column(db.String(300))
+    description = db.Column(db.Text, nullable=True)
+    length = db.Column(db.Integer)
+    price = db.Column(db.Float)
+    is_available = db.Column(db.Boolean, default=False)
+    source = db.Column(db.Integer, nullable=True)
+    image = db.Column(db.LargeBinary, nullable=True)
+
+    genres = db.relationship('BooksGenres', backref='book', lazy='dynamic')
+
+
+class Genres(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    books = db.relationship('BooksGenres', backref='genre', lazy='dynamic')
+
+
+class BooksGenres(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
+
+
 def connect_db():
     """Соединение с базой данных"""
     conn = sqlite3.connect(app.config['DATABASE'],
@@ -113,9 +149,9 @@ def book(book_id):
     """Страница книги"""
     res = None
     try:
-        res = BooksGenres.query.filter(BooksGenres.book_id == book_id).order_by(BooksGenres.genre.name).all()
-    except:
-        print("Ошибка чтения из БД")
+        res = BooksGenres.query.filter(BooksGenres.book_id == book_id).order_by(BooksGenres.book_id.desc()).all()
+    except Exception as e:
+        print(e.args)
 
     if not res:
         abort(404)
@@ -131,8 +167,8 @@ def catalog(genre_id):
     res = None
     try:
         res = BooksGenres.query.filter(BooksGenres.genre_id == genre_id).order_by(BooksGenres.book_id.desc()).all()
-    except:
-        print("Ошибка чтения из БД")
+    except Exception as e:
+        print(e.args)
 
     if not res:
         abort(404)
@@ -149,38 +185,3 @@ def catalog(genre_id):
 
 if __name__ == "__main__":
     app.run()
-
-
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
-    email = db.Column(db.String(50), unique=True)
-    psw = db.Column(db.String(500))
-    reg_date = db.Column(db.DateTime, default=datetime.utcnow())
-
-
-class Books(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(300))
-    authors = db.Column(db.String(300))
-    description = db.Column(db.Text, nullable=True)
-    length = db.Column(db.Integer)
-    price = db.Column(db.Float)
-    is_available = db.Column(db.Boolean, default=False)
-    source = db.Column(db.Integer, nullable=True)
-    image = db.Column(db.LargeBinary, nullable=True)
-
-    genres = db.relationship('BooksGenres', backref='book', lazy='dynamic')
-
-
-class Genres(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-
-    books = db.relationship('BooksGenres', backref='genre', lazy='dynamic')
-
-
-class BooksGenres(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
-    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
