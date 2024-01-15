@@ -9,8 +9,14 @@
         <div class="col-9">
             <p>Описание:</p>
             <p>{{ book.description }}</p>
+            <p>Жанры:
+            {% for genre in genres %}
+                <a href="#">{{ genre.name }}</a>
+            {% endfor %}
+            </p>
             <p>Количество страниц: {{ book.length }}.</p>
             <h4>Цена: {{ book.price }} руб.</h4>
+            <button type="button" class="btn btn-success green text-light mt-5 btn-lg">Купить</button>
         </div>
     </div>
 </div>
