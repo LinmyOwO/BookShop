@@ -64,7 +64,7 @@
             </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             {% for i in range(5) %}
-            <li><a class="dropdown-item" href="{{ url_for('catalog', category=i) }}">Действие {{ i }}</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('catalog', genre_id=i) }}">Действие {{ i }}</a></li>
             {% endfor %}
           </ul>
         </div>
