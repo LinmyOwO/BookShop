@@ -63,8 +63,8 @@
               Каталог
             </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            {% for i in range(5) %}
-            <li><a class="dropdown-item" href="{{ url_for('catalog', genre_id=i) }}">Действие {{ i }}</a></li>
+            {% for genre in all_genres %}
+            <li><a class="dropdown-item" href="{{ url_for('catalog', genre_id=genre.id) }}">{{ genre.name }}</a></li>
             {% endfor %}
           </ul>
         </div>
