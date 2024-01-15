@@ -3,6 +3,34 @@ from wtforms import StringField, PasswordField, BooleanField, TextAreaField, Rad
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, Regexp
 
 
+class RegisterForm(FlaskForm):
+    username = StringField(
+        "Имя",
+        validators=[DataRequired(), Length(min=2, max=100, message="Длина должна быть в пределах от 2 до 100 символов")]
+    )
+    email = StringField(
+        "Email",
+        validators=[DataRequired(), Email(message="Email введен некорректно"),
+                    Length(min=4, max=100, message="Длина должна быть в пределах от 4 до 100 символов")]
+    )
+    psw = PasswordField(
+        "Пароль",
+        validators=[DataRequired(), Length(min=2, max=100, message="Длина должна быть в пределах от 2 до 100 символов")]
+    )
+    psw_check = PasswordField(
+        "Повторите пароль",
+        validators=[DataRequired(), EqualTo('psw', message="Пароли не совпадают")]
+    )
+    submit = SubmitField("Зарегестрироваться")
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email(message="Email некорректен")])
+    psw = PasswordField("Пароль", validators=[DataRequired()])
+    remember = BooleanField("Запомнить меня", default=False)
+    submit = SubmitField("Войти")
+
+
 class AdminLoginForm(FlaskForm):
     login = StringField("Логин", validators=[DataRequired()])
     psw = PasswordField("Пароль", validators=[DataRequired()])
