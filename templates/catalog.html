@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <div class="row">
+        {% for i in range(10) %}
+            <div class="col-3 p">
+                <div class="card">
+                  <img src="{{ url_for('static', filename='public/book.png') }}" class="card-img-top img-fluid" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Заголовок карточки</h5>
+                    <p class="card-text">Небольшой пример текста, который должен основываться на названии карточки и составлять основную часть содержимого карты.</p>
+                    <a href="#" class="btn btn-primary">Перейти куда-нибудь</a>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
