@@ -16,7 +16,9 @@
             </p>
             <p>Количество страниц: {{ book.length }}.</p>
             <h4>Цена: {{ book.price }} руб.</h4>
-            <button type="button" class="btn btn-success green text-light mt-3 btn-lg">Купить</button>
+            <form method="post" action="{{ url_for('add_to_cart', book_id=book.id) }}">
+                <input type="submit" class="btn btn-success green text-light mt-3 btn-lg" value="Купить">
+            </form>
         </div>
     </div>
 </div>

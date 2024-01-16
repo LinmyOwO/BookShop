@@ -4,6 +4,7 @@ from flask_login import UserMixin
 class UserLogin(UserMixin):
     def fromDB(self, user_id, db_table):
         self.__user = db_table.query.get(user_id)
+        self.__cart = []
         return self
 
     def create(self, user):
@@ -13,7 +14,7 @@ class UserLogin(UserMixin):
 
     def add_to_cart(self, book):
         if book not in self.__cart:
-            self.__cart = self.__cart.append(book)
+            self.__cart.append(book)
 
     def delete_from_cart(self, book):
         if book in self.__cart:
@@ -27,3 +28,6 @@ class UserLogin(UserMixin):
 
     def get_cart(self):
         return self.__cart
+
+    def clear_cart(self):
+        self.__cart = []

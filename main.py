@@ -36,6 +36,8 @@ class Users(db.Model):
     psw = db.Column(db.String(500))
     reg_date = db.Column(db.DateTime, default=datetime.utcnow())
 
+    order = db.relationship('Orders', backref='user', lazy='dynamic')
+
 
 class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,6 +51,7 @@ class Books(db.Model):
     image_url = db.Column(db.String(100), nullable=True)
 
     genres = db.relationship('BooksGenres', backref='book', lazy='dynamic')
+    orders = db.relationship('OrdersBooks', backref='book', lazy='dynamic')
 
 
 class Genres(db.Model):
@@ -62,6 +65,20 @@ class BooksGenres(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
+
+
+class Orders(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    order_date = db.Column(db.DateTime, default=datetime.utcnow())
+
+    books = db.relationship('OrdersBooks', backref='order', lazy='dynamic')
+
+
+class OrdersBooks(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
 
 
 all_genres = []
@@ -103,7 +120,34 @@ def history():
 @login_required
 def cart():
     """Страница корзины"""
-    return render_template("cart.html", items=[], all_genres=all_genres)
+    return render_template("cart.html", all_genres=all_genres)
+
+
+@app.route('/add-to-cart/<int:book_id>', methods=["post"])
+@login_required
+def add_to_cart(book_id):
+    book = None
+    try:
+        book = Books.query.get(book_id)
+        if not current_user.is_book_in_cart(book):
+            current_user.add_to_cart(book)
+
+    except Exception as e:
+        print(e.args)
+
+    return redirect(url_for('book', book_id=book_id))
+
+
+@app.route('/delete-from-cart/<int:book_id>', methods=["post"])
+@login_required
+def delete_from_cart(book_id):
+    try:
+        book = Books.query.get(book_id)
+        current_user.delete_from_cart(book)
+    except Exception as e:
+        print(e.args)
+
+    return redirect(url_for('book', book_id=book_id))
 
 
 @app.route('/register', methods=["POST", "GET"])
@@ -173,7 +217,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/profile/<int:userid>')
+@app.route('/profile')
 @login_required
 def profile():
     """Страница профиля"""
