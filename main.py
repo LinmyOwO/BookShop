@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, abort, flash, redirect, url_for, request
+from flask import Flask, render_template, abort, flash, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from datetime import datetime
@@ -81,6 +81,13 @@ class OrdersBooks(db.Model):
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
 
 
+def is_book_in_cart(book_id):
+    if 'cart' in session:
+        return book_id in session['cart']
+    session['cart'] = []
+    return False
+
+
 all_genres = []
 @app.before_request
 def get_header_genres():
@@ -109,33 +116,40 @@ def about():
     """Страница 'О нас'"""
     return render_template("about.html", all_genres=all_genres)
 
+
 @app.route('/stocks')
 def stocks():
     """Страница 'Акции'"""
     return render_template("stocks.html", all_genres=all_genres)
 
 
-@app.route('/history')
-def history():
-    """Страница с историей заказов"""
-    return render_template("history.html", orders=[], all_genres=all_genres)
-
-
 @app.route('/cart')
 @login_required
 def cart():
     """Страница корзины"""
-    return render_template("cart.html", all_genres=all_genres)
+    books = []
+    price = 0
+    if 'cart' in session:
+        try:
+            for b_id in session['cart']:
+                book = Books.query.get(b_id)
+                books.append(book)
+        except Exception as e:
+            print(e.args)
+        for book in books:
+            price += book.price
+
+    return render_template("cart.html", books=books, price=price, all_genres=all_genres)
 
 
 @app.route('/add-to-cart/<int:book_id>', methods=["post"])
 @login_required
 def add_to_cart(book_id):
-    book = None
     try:
         book = Books.query.get(book_id)
-        if not current_user.is_book_in_cart(book):
-            current_user.add_to_cart(book)
+        if not is_book_in_cart(book.id):
+            session['cart'].append(book_id)
+            session.modified = True
 
     except Exception as e:
         print(e.args)
@@ -148,7 +162,8 @@ def add_to_cart(book_id):
 def delete_from_cart(book_id):
     try:
         book = Books.query.get(book_id)
-        current_user.delete_from_cart(book)
+        if is_book_in_cart(book.id):
+            session['cart'].remove(book_id)
     except Exception as e:
         print(e.args)
 

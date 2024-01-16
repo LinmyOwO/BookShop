@@ -4,38 +4,29 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 mb-5"><h2>Корзина</h2></div>
-        {% for book in current_user.get_cart() %}
-          <div class="col-2 mb-3">
-            <img class="img-fluid" src="{{ url_for('static', filename='/book/' + book.image_url) }}"/>
+        <div class="col-12 mb-3"><h2>Корзина</h2></div>
+        <hr/>
+        {% if books %}
+        {% for book in books %}
+          <div class="col-2 mb-4">
+            <img class="img-fluid" src="{{ url_for('static', filename='/books/' + book.image_url) }}"/>
           </div>
-          <div class="col-10 mb-3">
+          <div class="col-10 mb-4">
               <h3>{{ book.name }}</h3>
               <p>Автор: {{ book.authors }}</p>
               <p>Описание:</p>
-              <p>{{ book.description[:125] }}</p>
+              <p>{{ book.description[:300] + "..." }}</p>
               <h4>Цена: {{ book.price }} руб.</h4>
           </div>
         {% endfor %}
-        {% for i in range(5) %}
-            <div class="col-2 mb-3"><img class="img-fluid" src="{{ url_for('static', filename='public/book.png') }}"/></div>
-            <div class="col-10 mb-3">
-                <h3>Название</h3>
-                <p>Автор:</p>
-                <p>Описание:</p>
-                <p>АААААААААААААААААААа
-                aaaaaaaaaaaaaaaaaaaaa
-                aaaaaaaaaaaaaaaaaaa
-                АААААААААААААААААААААА
-                АААААААААААААААААААААА
-                ААААААААААААААААААААААААААА
-                ААААААААААААААААААААААААА</p>
-                <h4>Цена: 50 руб.</h4>
-            </div>
-        {% endfor %}
-        <div class="col-12 border-bottom my-5"></div>
-        <div class="col-3 mb-5"><h2>Цена:</h2></div>
+        <hr/>
+        <div class="col-12 border-bottom my-2"></div>
+        <div class="col-3 mb-5"><h2>Цена: {{ price }} руб.</h2></div>
         <button type="button" class="btn col-2 green mb-5">Оплатить</button>
+        {% else %}
+        <h3 class="disabled mb-5">Ваша корзина пуста</h3>
+        <hr/>
+        {% endif %}
     </div>
 </div>
 
