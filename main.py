@@ -92,6 +92,11 @@ def about():
     """Страница 'О нас'"""
     return render_template("about.html", all_genres=all_genres)
 
+@app.route('/stocks')
+def stocks():
+    """Страница 'Акции'"""
+    return render_template("stocks.html", all_genres=all_genres)
+
 
 @app.route('/history')
 def history():
@@ -173,7 +178,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/profile/<int:userid>')
+@app.route('/profile')
 @login_required
 def profile():
     """Страница профиля"""
