@@ -11,7 +11,7 @@
             <p>{{ book.description }}</p>
             <p>Жанры:
             {% for genre in genres %}
-                <a href="#">{{ genre.name }}</a>
+                <a class="link-dark" href="#">{{ genre.name }}</a>
             {% endfor %}
             </p>
             <p>Количество страниц: {{ book.length }}.</p>

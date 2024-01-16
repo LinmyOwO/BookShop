@@ -73,7 +73,8 @@ def get_header_genres():
 @app.route('/')
 def index():
     """Главная страница"""
-    return render_template("index.html", all_genres=all_genres)
+    new_books = Books.query.order_by(Books.id.desc()).limit(4).all()
+    return render_template("index.html", new_books=new_books, all_genres=all_genres)
 
 
 @app.route('/about')
