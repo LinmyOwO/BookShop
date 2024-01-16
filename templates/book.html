@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="container">
+<div class="container mb-5">
     <div class="row">
         <div class="col-12"><h3>{{ book.name }}</h3></div>
         <div class="col-12"><p>Автор: {{ book.authors }}</p></div>
@@ -16,12 +16,17 @@
             </p>
             <p>Количество страниц: {{ book.length }}.</p>
             <h4>Цена: {{ book.price }} руб.</h4>
+            {% if status == "addable" %}
             <form method="post" action="{{ url_for('add_to_cart', book_id=book.id) }}">
                 <input type="submit" class="btn btn-success green text-light mt-3 btn-lg" value="Купить">
             </form>
-            <button type="button" class="btn btn-success green text-light mt-3 btn-lg">Купить</button>
-            <button type="button" class="btn btn-success green text-light mt-3 btn-lg">Убрать из корзины</button>
-            <p>Данная книга уже куплена</p>
+            {% elif status == "in-cart" %}
+            <form method="post" action="{{ url_for('delete_from_cart', book_id=book.id) }}">
+                <input type="submit" class="btn btn-secondary text-light mt-3 btn-lg" value="Убрать из корзины">
+            </form>
+            {% else %}
+            <button class="btn btn-primary text-light mt-3 btn-lg" disabled>Куплено</button>
+            {% endif %}
         </div>
     </div>
 </div>

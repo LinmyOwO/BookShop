@@ -81,10 +81,31 @@ class OrdersBooks(db.Model):
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
 
 
+def get_bought_books():
+    books = []
+    try:
+        orders = Orders.query.filter(Orders.user_id == current_user.get_id()).all()
+        for order in orders:
+            res = OrdersBooks.query.filter(OrdersBooks.order_id == order.id).all()
+            books.extend([row.book for row in res])
+    except Exception as e:
+        print(e.args)
+
+    return books
+
+
 def is_book_in_cart(book_id):
     if 'cart' in session:
         return book_id in session['cart']
     session['cart'] = []
+    return False
+
+
+def is_book_bought(book_id):
+    books = get_bought_books()
+    for book in books:
+        if book.id == book_id:
+            return True
     return False
 
 
@@ -164,10 +185,22 @@ def delete_from_cart(book_id):
         book = Books.query.get(book_id)
         if is_book_in_cart(book.id):
             session['cart'].remove(book_id)
+            session.modified = True
     except Exception as e:
         print(e.args)
 
     return redirect(url_for('book', book_id=book_id))
+
+
+@app.route('/buy-books', methods=["post"])
+@login_required
+def buy_books():
+    try:
+        pass
+    except Exception as e:
+        print(e.args)
+
+    return redirect(url_for('profile'))
 
 
 @app.route('/register', methods=["POST", "GET"])
@@ -241,7 +274,8 @@ def logout():
 @login_required
 def profile():
     """Страница профиля"""
-    return render_template("profile.html", all_genres=all_genres)
+    books = get_bought_books()
+    return render_template("profile.html", books=books, all_genres=all_genres)
 
 
 @app.route('/book/<int:book_id>')
@@ -258,7 +292,14 @@ def book(book_id):
 
     book = res[0].book
     genres = [row.genre for row in res]
-    return render_template("book.html", book=book, genres=genres, all_genres=all_genres)
+
+    status = "addable"
+    if is_book_in_cart(book.id):
+        status = "in-cart"
+    if is_book_bought(book.id):
+        status = "bought"
+
+    return render_template("book.html", status=status, book=book, genres=genres, all_genres=all_genres)
 
 
 @app.route('/catalog/<int:genre_id>')
