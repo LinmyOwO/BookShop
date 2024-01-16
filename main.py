@@ -1,11 +1,12 @@
 import os
-from flask import Flask, render_template, abort, flash, redirect, url_for
+from flask import Flask, render_template, abort, flash, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from admin.admin import admin
 from forms import *
+from UserLogin import UserLogin
 
 # конфигурация приложения
 DATABASE = '/tmp/shop.db'
@@ -22,6 +23,10 @@ app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
 app.register_blueprint(admin, url_prefix='/admin')
 
 db = SQLAlchemy(app)
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message = "Авторизуйтесь для того, чтобы продолжить"
 
 
 class Users(db.Model):
@@ -70,6 +75,11 @@ def get_header_genres():
         print(e.args)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return UserLogin().fromDB(user_id, Users)
+
+
 @app.route('/')
 def index():
     """Главная страница"""
@@ -90,6 +100,7 @@ def history():
 
 
 @app.route('/cart')
+@login_required
 def cart():
     """Страница корзины"""
     return render_template("cart.html", items=[], all_genres=all_genres)
@@ -98,12 +109,15 @@ def cart():
 @app.route('/register', methods=["POST", "GET"])
 def register():
     """Страница регистрации"""
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
     form = RegisterForm()
 
     if form.validate_on_submit():
         res = Users.query.filter(Users.email == form.email.data).all()
         if res:
-            flash("Пользователь с таким email уже существует")
+            flash("Пользователь с таким email уже существует", "text-danger")
             return render_template("register.html", form=form, all_genres=all_genres)
 
         data_loaded = False
@@ -122,21 +136,45 @@ def register():
             print(e.args)
 
         if data_loaded:
-            flash("Аккаунт успешно зарегестрирован")
+            flash("Аккаунт успешно зарегестрирован", "text-success")
             return redirect(url_for('login'))
         else:
-            flash("Произошла ошибка сервера, попробуйте позже")
+            flash("Произошла ошибка сервера, попробуйте позже", "text-danger")
 
     return render_template("register.html", form=form, all_genres=all_genres)
 
 
-@app.route('/login')
+@app.route('/login', methods=["post", "get"])
 def login():
     """Страница входа"""
-    return render_template("login.html", all_genres=all_genres)
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        res = Users.query.filter(Users.email == form.email.data).all()
+        if res and check_password_hash(res[0].psw, form.psw.data):
+            userLogin = UserLogin().create(res[0])
+            rm = form.remember.data
+            login_user(userLogin, rm)
+            return redirect(request.args.get('next') or url_for('index'))
+
+        flash("Неверный логин/пароль", "text-danger")
+
+    return render_template("login.html", form=form, all_genres=all_genres)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("Вы успешно вышли из аккаунта", "text-success")
+    return redirect(url_for('login'))
 
 
 @app.route('/profile/<int:userid>')
+@login_required
 def profile():
     """Страница профиля"""
     return render_template("profile.html", all_genres=all_genres)

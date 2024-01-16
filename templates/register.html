@@ -23,8 +23,8 @@
           {% endif %}
         </div>
         {% endfor %}
-        {% for msg in get_flashed_messages() %}
-        <span class="text-danger">{{ msg }}</span>
+        {% for cat, msg in get_flashed_messages(with_categories=true) %}
+        <span class="{{ cat }}">{{ msg }}</span>
         {% endfor %}
         {{ form.submit(class='btn btn-success py-2 mt-3 green') }}
       </form>

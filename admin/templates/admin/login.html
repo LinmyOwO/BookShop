@@ -27,8 +27,8 @@
           {% endif %}
         </div>
         {% endfor %}
-        {% for msg in get_flashed_messages() %}
-        <span class="text-danger">{{ msg }}</span>
+        {% for cat, msg in get_flashed_messages() %}
+        <span class="{{ cat }}">{{ msg }}</span>
         {% endfor %}
         {{ form.submit(class='btn btn-primary w-100 py-2 mt-3') }}
         <p class="mt-5 mb-3 text-body-secondary">© 101 Books 2024</p>
