@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<div id="carouselExampleControls1" class="carousel slide mt-3" data-bs-ride="carousel">
+<div id="carouselExampleControls1" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="{{ url_for('static', filename='public/news1.png') }}" class="d-block w-100 img-fluid" height="300px" alt="..." >
@@ -26,89 +26,26 @@
     <span class="visually-hidden">Следующий</span>
   </button>
 </div>
-<div class="container mt-5">
-    <div class="row">
-        <h2 class="col-12 text-center">Новинки</h2>
-        <div class="col-12 mb-5"><h2>{{ genre }}</h2></div>
-        {% for book in new_books %}
-            <div class="col-3 mb-3">
-                <a href="{{ url_for('book', book_id=book.id) }}" class="link-dark link-underline link-underline-opacity-0">
-                    <div class="card">
-                      <img src="{{ url_for('static', filename='/books/' + book.image_url) }}" class="card-img-top img-fluid" alt="...">
-                      <div class="card-body">
-                        <h5 class="card-title">{{ book.name }}</h5>
-                        <p class="card-text">{{ book.description[:75] + '...' }}</p>
-                        <h5 class="card-title">Цена: {{ book.price }} руб.</h5>
-                      </div>
-                    </div>
-                </a>
-            </div>
-        {% endfor %}
+<h2 class="text-center my-5">Новинки</h2>
+<div style="background-color: #463E50;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-5"><h2>{{ genre }}</h2></div>
+            {% for book in new_books %}
+                <div class="col-3 mb-3">
+                    <a href="{{ url_for('book', book_id=book.id) }}" class="link-dark link-underline link-underline-opacity-0">
+                        <div class="card">
+                          <img src="{{ url_for('static', filename='/books/' + book.image_url) }}" class="card-img-top img-fluid" alt="...">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ book.name }}</h5>
+                            <p class="card-text">{{ book.description[:75] + '...' }}</p>
+                            <h5 class="card-title">Цена: {{ book.price }} руб.</h5>
+                          </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
-<!-- <div class="main">
-  <img
-    class="advertisement-icon"
-    alt=""
-    src="{{ url_for('static', filename='public/advertisement@2x.png') }}"
-    width="400px" height="300px"
-  />
-
-  <div class="component-3-parent">
-    <div class="component-3">
-      <div class="component-3-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <div class="component-4">
-      <div class="component-3-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <div class="component-5">
-      <div class="component-3-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <div class="component-6">
-      <div class="component-3-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-  </div>
-  <div class="popular">
-    <img class="popular-child" alt="" src="./public/group-5@2x.png" />
-
-    <img class="popular-item" alt="" src="./public/group-5@2x.png" />
-
-    <div class="div8">Популярные</div>
-  </div>
-  <div class="new">
-    <div class="component-2">
-      <div class="component-2-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <div class="component-41">
-      <div class="component-2-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <div class="component-51">
-      <div class="component-2-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <div class="component-31">
-      <div class="component-2-child"></div>
-      <div class="div">Название</div>
-      <div class="div1">Цена руб.</div>
-    </div>
-    <img class="popular-child" alt="" src="./public/group-5@2x.png" />
-
-    <img class="popular-item" alt="" src="./public/group-5@2x.png" />
-
-    <div class="div17">Новинки</div>
-  </div>
-</div>-->
 {% endblock %}
