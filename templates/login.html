@@ -1,2 +1,38 @@
 {% extends 'base.html' %}
 
+{% block body %}
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-5">
+      <form method="post">
+        {{ form.hidden_tag() }}
+        <h2 class="mb-1 fw-normal">Вход</h2>
+        {% for field in form if field.name not in ['csrf_token', 'remember', 'submit'] %}
+        <div class="mb-1">
+          {% if field.errors %}
+          {{ field.label(class='mb-1', for='field.name') }}
+          {{ field(class='form-control is-invalid') }}
+          <div class="invalid-feedback">
+            {% for e in field.errors %}
+            {{ e }}
+            {% endfor %}
+          </div>
+          {% else %}
+          {{ field.label(class='mb-1', for='field.name') }}
+          {{ field(class='form-control') }}
+          {% endif %}
+        </div>
+        {% endfor %}
+        {% for cat, msg in get_flashed_messages(with_categories=true) %}
+        <span class="{{ cat }}">{{ msg }}</span>
+        {% endfor %}
+        <div class="mb-1 form-check">
+          {{ form.remember(class='form-check-input', id=form.remember.name) }}
+          {{ form.remember.label(class='form-check-label', for=form.remember.name) }}
+        </div>
+        {{ form.submit(class='btn btn-success py-2 mt-1 green') }}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
