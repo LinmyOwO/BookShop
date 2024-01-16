@@ -165,6 +165,7 @@ def login():
     return render_template("login.html", form=form, all_genres=all_genres)
 
 
+
 @app.route('/logout')
 @login_required
 def logout():
