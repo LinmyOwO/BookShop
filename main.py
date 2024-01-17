@@ -196,8 +196,20 @@ def delete_from_cart(book_id):
 @login_required
 def buy_books():
     try:
-        pass
+        order_id = Orders.query.count() + 1
+        o = Orders(user_id=current_user.get_id())
+        db.session.add(o)
+        db.session.flush()
+
+        for book_id in session['cart']:
+            o_b = OrdersBooks(order_id=order_id, book_id=book_id)
+            db.session.add(o_b)
+
+        db.session.commit()
+        session['cart'] = []
+        session.modified = True
     except Exception as e:
+        db.session.rollback()
         print(e.args)
 
     return redirect(url_for('profile'))

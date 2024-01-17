@@ -21,10 +21,11 @@
         {% endfor %}
         <hr/>
         <div class="col-12 border-bottom my-2"></div>
-        <div class="col-3 mb-5"><h2>Цена: {{ price }} руб.</h2></div>
-        <form method="post" action="{{ url_for('buy_books') }}">
-          <input type="submit" class="btn btn-success green text-light mt-3 btn-lg" value="Оплатить">
-        </form>
+        <div class="col-3 mb-5">
+          <h2>Всего: {{ price }} руб.</h2>
+        </div>
+        <input form="buy" type="submit" class="btn btn-success green col-2 text-light btn-lg mb-5" value="Оплатить">
+        <form method="post" action="{{ url_for('buy_books') }}" id="buy"></form>
         {% else %}
         <h3 class="mb-5">Ваша корзина пуста</h3>
         {% endif %}

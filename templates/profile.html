@@ -9,13 +9,12 @@
     </div>
     <hr/>
     {% if books %}
-      <h3 class="my-2">Ваши книги</h3>
+      <h3 class="mt-1 mb-4">Ваши книги</h3>
       {% for book in books %}
-        <div class="col-1 mb-4"></div>
         <div class="col-2 mb-4">
           <img class="img-fluid" src="{{ url_for('static', filename='/books/' + book.image_url) }}"/>
         </div>
-        <div class="col-9 mb-4">
+        <div class="col-10 mb-4">
             <h3>{{ book.name }}</h3>
             <p>Автор: {{ book.authors }}</p>
             <p>Описание:</p>
