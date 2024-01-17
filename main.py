@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, abort, flash, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -9,7 +8,6 @@ from forms import *
 from UserLogin import UserLogin
 
 # конфигурация приложения
-DATABASE = '/tmp/shop.db'
 DEBUG = True
 SECRET_KEY = '7bee6651532c3c31a57bca7b6ccbcd36894f874e'
 
@@ -18,7 +16,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.config.update(dict(DATABASE=os.path.join(app.root_path, 'shop.db')))
 
 app.register_blueprint(admin, url_prefix='/admin')
 
