@@ -24,6 +24,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = "Авторизуйтесь для того, чтобы продолжить"
+login_manager.login_message_category = "text-danger"
 
 
 class Users(db.Model):
